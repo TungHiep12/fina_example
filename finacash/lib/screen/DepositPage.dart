@@ -13,7 +13,7 @@ class _DepositPageState extends State<DepositPage> {
   List<MoneyItem> listmovimentacoes = List();
 
   _allMovPorTipo() {
-    movimentacoesHelper.getAllMovimentacoesPorTipo("d").then((list) {
+    movimentacoesHelper.getAllMoneyItemByTransactionType("d").then((list) {
       setState(() {
         listmovimentacoes = list;
       });

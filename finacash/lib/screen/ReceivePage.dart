@@ -13,7 +13,7 @@ class _ReceivePageState extends State<ReceivePage> {
   List<MoneyItem> moneyItemList = List();
 
   _allMovPorTipo() {
-    myDataBaseHelper.getAllMovimentacoesPorTipo("r").then((list) {
+    myDataBaseHelper.getAllMoneyItemByTransactionType("r").then((list) {
       setState(() {
         moneyItemList = list;
       });
