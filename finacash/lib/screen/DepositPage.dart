@@ -2,7 +2,6 @@ import 'package:finacash/Helper/MyDatabaseHelper.dart';
 import 'package:finacash/Widgets/TimeLineItem.dart';
 import 'package:flutter/material.dart';
 
-
 class DepositPage extends StatefulWidget {
   @override
   _DepositPageState createState() => _DepositPageState();
@@ -30,7 +29,6 @@ class _DepositPageState extends State<DepositPage> {
 
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -42,13 +40,14 @@ class _DepositPageState extends State<DepositPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(left: width * 0.05,top: width * 0.2),
-              child: Text("Deposit",style: TextStyle(
-                color: Colors.white ,//Colors.grey[400],
-                fontWeight: FontWeight.bold,
-                fontSize: width * 0.08
-              ),),
-              
+              padding: EdgeInsets.only(left: width * 0.05, top: width * 0.2),
+              child: Text(
+                "Deposit",
+                style: TextStyle(
+                    color: Colors.white, //Colors.grey[400],
+                    fontWeight: FontWeight.bold,
+                    fontSize: width * 0.08),
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(left: width * 0.03, top: width * 0.08),
@@ -57,22 +56,27 @@ class _DepositPageState extends State<DepositPage> {
                 height: height * 0.74,
                 child: ListView.builder(
                   itemCount: listmovimentacoes.length,
-                  itemBuilder: (context, index){
+                  itemBuilder: (context, index) {
                     List movReverse = listmovimentacoes.reversed.toList();
                     MoneyItem mov = movReverse[index];
-                    
-                    if(movReverse[index] == movReverse.last){
-                      return TimeLineItem(mov: mov, colorItem: Colors.red[900],isLast: true,);
-                    }else{
-                      return TimeLineItem(mov: mov,colorItem: Colors.red[900],isLast: false,);
+
+                    if (movReverse[index] == movReverse.last) {
+                      return TimeLineItem(
+                        mov: mov,
+                        colorItem: Colors.red[900],
+                        isLast: true,
+                      );
+                    } else {
+                      return TimeLineItem(
+                        mov: mov,
+                        colorItem: Colors.red[900],
+                        isLast: false,
+                      );
                     }
-                    
                   },
                 ),
               ),
-              
             ),
-            
           ],
         ),
       ),

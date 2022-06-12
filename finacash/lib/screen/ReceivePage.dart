@@ -8,7 +8,6 @@ class ReceivePage extends StatefulWidget {
 }
 
 class _ReceivePageState extends State<ReceivePage> {
-
   MySqlDataBaseHelper myDataBaseHelper = MySqlDataBaseHelper();
   List<MoneyItem> moneyItemList = List();
 
@@ -27,10 +26,9 @@ class _ReceivePageState extends State<ReceivePage> {
     super.initState();
     _allMovPorTipo();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -42,13 +40,14 @@ class _ReceivePageState extends State<ReceivePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(left: width * 0.05,top: width * 0.2),
-              child: Text("Receive",style: TextStyle(
-                color: Colors.white ,//Colors.grey[400],
-                fontWeight: FontWeight.bold,
-                fontSize: width * 0.08
-              ),),
-              
+              padding: EdgeInsets.only(left: width * 0.05, top: width * 0.2),
+              child: Text(
+                "Receive",
+                style: TextStyle(
+                    color: Colors.white, //Colors.grey[400],
+                    fontWeight: FontWeight.bold,
+                    fontSize: width * 0.08),
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(left: width * 0.03, top: width * 0.08),
@@ -57,27 +56,30 @@ class _ReceivePageState extends State<ReceivePage> {
                 height: height * 0.74,
                 child: ListView.builder(
                   itemCount: moneyItemList.length,
-                  itemBuilder: (context, index){
+                  itemBuilder: (context, index) {
                     List movReverse = moneyItemList.reversed.toList();
                     MoneyItem mov = movReverse[index];
 
-                    
-                    if(movReverse[index] == movReverse.last){
-                      return TimeLineItem(mov: mov, colorItem: Colors.green[900],isLast: true,);
-                    }else{
-                      return TimeLineItem(mov: mov,colorItem: Colors.green[900],isLast: false,);
+                    if (movReverse[index] == movReverse.last) {
+                      return TimeLineItem(
+                        mov: mov,
+                        colorItem: Colors.green[900],
+                        isLast: true,
+                      );
+                    } else {
+                      return TimeLineItem(
+                        mov: mov,
+                        colorItem: Colors.green[900],
+                        isLast: false,
+                      );
                     }
-                    
                   },
                 ),
               ),
-              
             ),
-            
           ],
         ),
       ),
-      
     );
   }
 }

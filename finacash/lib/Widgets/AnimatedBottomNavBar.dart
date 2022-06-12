@@ -9,7 +9,8 @@ class AnimatedBottomBar extends StatefulWidget {
   AnimatedBottomBar(
       {this.barItems,
       this.animationDuration = const Duration(milliseconds: 500),
-      this.onBarTap, this.barStyle});
+      this.onBarTap,
+      this.barStyle});
 
   @override
   _AnimatedBottomBarState createState() => _AnimatedBottomBarState();
@@ -19,22 +20,19 @@ class _AnimatedBottomBarState extends State<AnimatedBottomBar>
     with TickerProviderStateMixin {
   int selectedBarIndex = 1;
 
-  
-
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
     return Material(
       elevation: 10,
       child: Padding(
-        padding:  EdgeInsets.only(
+        padding: EdgeInsets.only(
           bottom: width * 0.07, //32.0,
-          top: width * 0.04,//16.0,
-          left:width * 0.04,// 16.0,
-          right:width * 0.04,// 16.0,
+          top: width * 0.04, //16.0,
+          left: width * 0.04, // 16.0,
+          right: width * 0.04, // 16.0,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -45,7 +43,7 @@ class _AnimatedBottomBarState extends State<AnimatedBottomBar>
     );
   }
 
-  List<Widget> _buildBarItems(BuildContext contex,double largura) {
+  List<Widget> _buildBarItems(BuildContext contex, double largura) {
     List<Widget> _barItems = List();
     for (int i = 0; i < widget.barItems.length; i++) {
       BarItem item = widget.barItems[i];
@@ -59,7 +57,8 @@ class _AnimatedBottomBarState extends State<AnimatedBottomBar>
           });
         },
         child: AnimatedContainer(
-          padding:  EdgeInsets.symmetric(horizontal: largura * 0.03 , vertical: largura * 0.008),
+          padding: EdgeInsets.symmetric(
+              horizontal: largura * 0.03, vertical: largura * 0.008),
           duration: widget.animationDuration,
           decoration: BoxDecoration(
               color: isSelected
@@ -101,10 +100,11 @@ class _AnimatedBottomBarState extends State<AnimatedBottomBar>
 class BarStyle {
   final double fontSize, iconSize;
   final FontWeight fontWeight;
-  
-  
 
-  BarStyle({this.fontSize = 16.0, this.iconSize = 32, this.fontWeight = FontWeight.w600});
+  BarStyle(
+      {this.fontSize = 16.0,
+      this.iconSize = 32,
+      this.fontWeight = FontWeight.w600});
 }
 
 class BarItem {

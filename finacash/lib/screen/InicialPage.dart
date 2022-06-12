@@ -5,11 +5,8 @@ import 'package:finacash/screen/ReceivePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 class InicialPage extends StatefulWidget {
-
   final List<BarItem> barItems = [
-    
     BarItem(
       text: "Expenses",
       iconData: Icons.remove_circle_outline,
@@ -17,10 +14,9 @@ class InicialPage extends StatefulWidget {
     ),
     BarItem(
       text: "Home",
-      iconData:  Icons.home,
+      iconData: Icons.home,
       color: Colors.indigo,
     ),
-    
     BarItem(
       text: "Revenues",
       iconData: Icons.add_circle_outline,
@@ -39,52 +35,38 @@ class InicialPage extends StatefulWidget {
 }
 
 class _InicialPageState extends State<InicialPage> {
-  
   int selectedBarIndex = 1;
-  
-  
-  
 
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //systemNavigationBarColor: Colors.lightBlue[700], // navigation bar color
-    //statusBarColor: Colors.lightBlue[700],
-    systemNavigationBarIconBrightness: Brightness.dark,
-    systemNavigationBarColor: Colors.white,
-    statusBarIconBrightness: Brightness.light // status bar color
-  ));
+        //systemNavigationBarColor: Colors.lightBlue[700], // navigation bar color
+        //statusBarColor: Colors.lightBlue[700],
+        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.light // status bar color
+        ));
 
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-    
 
-    List<Widget> telas =[
-      DepositPage(),
-      HomePage(),
-      ReceivePage()
-    ];
+    List<Widget> telas = [DepositPage(), HomePage(), ReceivePage()];
 
     return Scaffold(
       body: telas[selectedBarIndex],
       bottomNavigationBar: AnimatedBottomBar(
         barItems: widget.barItems,
-          animationDuration: const Duration(milliseconds: 150),
-          barStyle: BarStyle(
-            fontSize: width * 0.045,
-            iconSize: width * 0.07
-          ),
-          onBarTap: (index){
-            setState(() {
-              selectedBarIndex = index;
-            });
-          },
+        animationDuration: const Duration(milliseconds: 150),
+        barStyle: BarStyle(fontSize: width * 0.045, iconSize: width * 0.07),
+        onBarTap: (index) {
+          setState(() {
+            selectedBarIndex = index;
+          });
+        },
       ),
-
     );
   }
 }

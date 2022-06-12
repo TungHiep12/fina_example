@@ -175,10 +175,13 @@ class CardMoneyItem extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  mov.transactionType == "r" ? "+ ${mov.valor}" : " ${mov.valor}",
+                  mov.transactionType == "r"
+                      ? "+ ${mov.valor}"
+                      : " ${mov.valor}",
                   style: TextStyle(
-                    color:
-                        mov.transactionType == "r" ? Colors.green[700] : Colors.red[700],
+                    color: mov.transactionType == "r"
+                        ? Colors.green[700]
+                        : Colors.red[700],
                     fontWeight: FontWeight.bold,
                     fontSize: width * 0.044,
                   ),

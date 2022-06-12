@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:finacash/Helper/MyDatabaseHelper.dart';
-import 'package:finacash/Widgets/AnimatedBottomNavBar.dart';
 import 'package:finacash/Widgets/CardMoneyItem.dart';
 import 'package:finacash/Widgets/CustomDialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-
 
 class HomePage extends StatefulWidget {
   @override
@@ -83,8 +80,7 @@ class _HomePageState extends State<HomePage> {
           listmoneyitem = list;
           //total =listmovimentacoes.map((item) => item.valor).reduce((a, b) => a + b);
         });
-        total =
-            listmoneyitem.map((item) => item.valor).reduce((a, b) => a + b);
+        total = listmoneyitem.map((item) => item.valor).reduce((a, b) => a + b);
         saldoAtual = format(total).toString();
       } else {
         setState(() {
@@ -99,7 +95,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  
   @override
   void initState() {
     // TODO: implement initState
@@ -210,18 +205,17 @@ class _HomePageState extends State<HomePage> {
                               padding: EdgeInsets.only(left: width * 0.05),
                               child: Container(
                                 width: width * 0.6,
-                                
                                 child: Text(
-                                saldoAtual,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+                                  saldoAtual,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
                                     color: Colors
                                         .lightBlue[700], //Colors.indigo[400],
                                     fontWeight: FontWeight.bold,
                                     fontSize: _saldoTamanho(saldoAtual),
-                                        //width * 0.1 //_saldoTamanho(saldoAtual)
-                                    ),
-                              ),
+                                    //width * 0.1 //_saldoTamanho(saldoAtual)
+                                  ),
+                                ),
                               ),
                             ),
                             Padding(
@@ -289,7 +283,6 @@ class _HomePageState extends State<HomePage> {
                 _allMovMes(dateFormatada);
 
                 print("DATA FORMATADA CALENDAR $dateFormatada");
-
               },
             ),
             Padding(
@@ -366,7 +359,7 @@ class _HomePageState extends State<HomePage> {
                       },
                       key: ValueKey(mov.id),
                       background: Container(
-                        padding: EdgeInsets.only(right: 10 ,top: width * 0.04),
+                        padding: EdgeInsets.only(right: 10, top: width * 0.04),
                         alignment: Alignment.topRight,
                         color: Colors.red,
                         child: Icon(
@@ -377,7 +370,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: CardMoneyItem(
                         mov: mov,
-                        lastItem: listmoneyitem[index] == listmoneyitem.last? true : false,
+                        lastItem: listmoneyitem[index] == listmoneyitem.last
+                            ? true
+                            : false,
                       ),
                     );
                   },
@@ -386,7 +381,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Padding(
               padding: EdgeInsets.only(top: 20),
-              child: Text( "SAMPLE TEXT PADDING"),
+              child: Text("SAMPLE TEXT PADDING"),
             )
           ],
         ),
