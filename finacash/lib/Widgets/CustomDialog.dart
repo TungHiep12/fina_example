@@ -32,14 +32,14 @@ class _CustomDialogState extends State<CustomDialog> {
       print(widget.mov.toString());
 
       edit = true;
-      if(widget.mov.tipo == "d"){ 
+      if(widget.mov.transactionType == "d"){
         _groupValueRadio =2;
         _colorContainer = Colors.red[300];
         _colorTextButtom = Colors.red[300];
         }
       
       _controllerValor.text = widget.mov.valor.toString().replaceAll("-", "");
-      _controllerDesc.text = widget.mov.descricao;
+      _controllerDesc.text = widget.mov.description;
     }else{
       edit = false;
     }
@@ -194,7 +194,6 @@ class _CustomDialogState extends State<CustomDialog> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        
                         if(_controllerValor.text.isNotEmpty && _controllerDesc.text.isNotEmpty){
                           MoneyItem mov = MoneyItem();
                           String valor;
@@ -204,21 +203,21 @@ class _CustomDialogState extends State<CustomDialog> {
                               valor = _controllerValor.text; 
                             }
 
-                          mov.data = formatter.format(DateTime.now());
-                          mov.descricao = _controllerDesc.text;
+                          mov.date = formatter.format(DateTime.now());
+                          mov.description = _controllerDesc.text;
                           
                           if(_groupValueRadio == 1){
                             
                             mov.valor = double.parse(valor);
-                            mov.tipo ="r";
+                            mov.transactionType ="r";
                             if(widget.mov != null){ mov.id = widget.mov.id;}
-                            edit == false ? _movHelper.saveMoneyItem(mov) : _movHelper.updateMovimentacao(mov);
+                            edit == false ? _movHelper.saveMoneyItem(mov) : _movHelper.updateMoneyItem(mov);
                           }
                           if(_groupValueRadio == 2){
                             mov.valor = double.parse("-" + valor);
-                            mov.tipo ="d";
+                            mov.transactionType ="d";
                             if(widget.mov != null){ mov.id = widget.mov.id;}
-                            edit == false ? _movHelper.saveMoneyItem(mov) : _movHelper.updateMovimentacao(mov);
+                            edit == false ? _movHelper.saveMoneyItem(mov) : _movHelper.updateMoneyItem(mov);
                           }
                           Navigator.pop(context);
                           //initState();

@@ -54,7 +54,7 @@ class TimeLineItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: width * 0.05),
                     child: Text(
-                      mov.descricao,
+                      mov.description,
                       style: TextStyle(
                           color: Colors.white, fontSize: width * 0.05,),
                     ),
@@ -63,7 +63,7 @@ class TimeLineItem extends StatelessWidget {
                     padding:
                         EdgeInsets.only(left: width * 0.05, top: width * 0.02),
                     child: Text(
-                      mov.data,
+                      mov.date,
                       style: TextStyle(
                         color: Colors.white70,
                         fontSize: width * 0.034,
@@ -76,7 +76,7 @@ class TimeLineItem extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(right: width * 0.05),
-            child: Text(mov.tipo == "r" ? "+ ${mov.valor}" :" ${mov.valor}",
+            child: Text(mov.transactionType == "r" ? "+ ${mov.valor}" :" ${mov.valor}",
               
               
               textAlign: TextAlign.end,

@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
   var dataAtual = new DateTime.now();
   var formatter = new DateFormat('dd-MM-yyyy');
   var formatterCalendar = new DateFormat('MM-yyyy');
-  String dataFormatada;
+  String dateFormatada;
 
   String format(double n) {
     return n.toStringAsFixed(n.truncateToDouble() == n ? 0 : 2);
@@ -56,19 +56,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   _salvar() {
-    dataFormatada = formatter.format(dataAtual);
+    dateFormatada = formatter.format(dataAtual);
     MoneyItem mov = MoneyItem();
     mov.valor = 20.50;
-    mov.tipo = "r";
-    mov.data = "10-03-2020"; //dataFormatada;
-    mov.descricao = "CashBack";
+    mov.transactionType = "r";
+    mov.date = "10-03-2020"; //dataFormatada;
+    mov.description = "CashBack";
     MySqlDataBaseHelper movimentacoesHelper = MySqlDataBaseHelper();
     movimentacoesHelper.saveMoneyItem(mov);
     mov.toString();
   }
 
   _allMov() {
-    movimentacoesHelper.getAllMovimentacoes().then((list) {
+    movimentacoesHelper.getAllMoneyItem().then((list) {
       setState(() {
         listmoneyitem = list;
       });
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _allMovMes(String data) {
-    movimentacoesHelper.getAllMovimentacoesPorMes(data).then((list) {
+    movimentacoesHelper.getAllMoneyItems(data).then((list) {
       if (list.isNotEmpty) {
         setState(() {
           listmoneyitem = list;
@@ -109,9 +109,9 @@ class _HomePageState extends State<HomePage> {
       //saldoAtual = "1259";
     }
     //_salvar();
-    dataFormatada = formatterCalendar.format(dataAtual);
-    print(dataFormatada);
-    _allMovMes(dataFormatada);
+    dateFormatada = formatterCalendar.format(dataAtual);
+    print(dateFormatada);
+    _allMovMes(dateFormatada);
 
     //_allMov();
   }
@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
 
-    _allMovMes(dataFormatada);
+    _allMovMes(dateFormatada);
     return Scaffold(
       key: _scafoldKey,
       body: SingleChildScrollView(
@@ -285,12 +285,11 @@ class _HomePageState extends State<HomePage> {
               onVisibleDaysChanged: (dateFirst, dateLast, CalendarFormat cf) {
                 print(dateFirst);
 
-                dataFormatada = formatterCalendar.format(dateFirst);
-                _allMovMes(dataFormatada);
+                dateFormatada = formatterCalendar.format(dateFirst);
+                _allMovMes(dateFormatada);
 
-                print("DATA FORMATADA CALENDAR $dataFormatada");
+                print("DATA FORMATADA CALENDAR $dateFormatada");
 
-                //print("Data Inicial: $dateFirst ....... Data Final: $dateLast");
               },
             ),
             Padding(
@@ -331,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                         setState(() {
                           listmoneyitem.removeAt(index);
                         });
-                        movHelper.deleteMovimentacao(mov);
+                        movHelper.deleteMoneyItem(mov);
                         final snackBar = SnackBar(
                           content: Container(
                             padding: EdgeInsets.only(bottom: width * 0.025),

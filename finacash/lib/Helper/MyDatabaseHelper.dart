@@ -3,12 +3,12 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-  final String movimentacaoTABLE = "movimentacaoTABLE";
+  final String moneyTABLE = "movimentacaoTABLE";
   final String idColumn = "idColumn";
-  final String dataColumn = "dataColumn";
-  final String valorColumn = "valorColumn";
-  final String tipoColumn = "tipoColumn";
-  final String descricaoColumn = "descricaoColumn";
+  final String dateColumn = "dataColumn";
+  final String valueColumn = "valorColumn";
+  final String transactionTypeColumn = "tipoColumn";
+  final String moneyValueColumn = "descricaoColumn";
   
 
 class MySqlDataBaseHelper{
@@ -36,28 +36,28 @@ class MySqlDataBaseHelper{
 
   return await openDatabase(path,version: 1,onCreate: (Database db,int newerVersion)async{
       await db.execute(
-        "CREATE TABLE $movimentacaoTABLE(" +
+        "CREATE TABLE $moneyTABLE(" +
         "$idColumn INTEGER PRIMARY KEY,"+
-        "$valorColumn FLOAT,"+
-        "$dataColumn TEXT,"+
-        "$tipoColumn TEXT,"+
-        "$descricaoColumn TEXT)"
+        "$valueColumn FLOAT,"+
+        "$dateColumn TEXT,"+
+        "$transactionTypeColumn TEXT,"+
+        "$moneyValueColumn TEXT)"
             
       );
     });
   }
 
-  Future<MoneyItem> saveMoneyItem(MoneyItem movimentacoes)async{
+  Future<MoneyItem> saveMoneyItem(MoneyItem moneyItem)async{
     print("chamada save");
-    Database dbMovimentacoes = await db;
-    movimentacoes.id = await dbMovimentacoes.insert(movimentacaoTABLE, movimentacoes.toMap());
-    return movimentacoes;
+    Database myDb = await db;
+    moneyItem.id = await myDb.insert(moneyTABLE, moneyItem.toMap());
+    return moneyItem;
   }
 
   Future<MoneyItem> getMoneyItem(int id)async{
     Database dbMovimentacoes = await db;
-    List<Map> maps = await dbMovimentacoes.query(movimentacaoTABLE,
-    columns: [idColumn,valorColumn, dataColumn, tipoColumn,descricaoColumn],
+    List<Map> maps = await dbMovimentacoes.query(moneyTABLE,
+    columns: [idColumn,valueColumn, dateColumn, transactionTypeColumn,moneyValueColumn],
     where: "$idColumn =?",
     whereArgs: [id]);
 
@@ -68,66 +68,66 @@ class MySqlDataBaseHelper{
     }
   }
 
-  Future<int> deleteMovimentacao(MoneyItem movimentacoes)async{
+  Future<int> deleteMoneyItem(MoneyItem movimentacoes)async{
     Database dbMovimentacoes = await db;
-    return await dbMovimentacoes.delete(movimentacaoTABLE,
+    return await dbMovimentacoes.delete(moneyTABLE,
     where: "$idColumn =?",
     whereArgs: [movimentacoes.id]);
   }
 
-  Future<int> updateMovimentacao(MoneyItem movimentacoes)async{
-    print("chamada update");
-    print(movimentacoes.toString());
-    Database dbMovimentacoes = await db;
-    return await dbMovimentacoes.update(movimentacaoTABLE,movimentacoes.toMap(),
+  Future<int> updateMoneyItem(MoneyItem moneyItem)async{
+    print("update money item");
+    print(moneyItem.toString());
+    Database dbMoneyItem = await db;
+    return await dbMoneyItem.update(moneyTABLE,moneyItem.toMap(),
     where: "$idColumn =?",
-    whereArgs: [movimentacoes.id]
+    whereArgs: [moneyItem.id]
     );
   }
 
-  Future<List> getAllMovimentacoes()async{
-    Database dbMovimentacoes = await db;
-    List listMap = await dbMovimentacoes.rawQuery("SELECT * FROM $movimentacaoTABLE");
-    List<MoneyItem> listMovimentacoes = List();
+  Future<List> getAllMoneyItem()async{
+    Database dbMoneyItem = await db;
+    List listMap = await dbMoneyItem.rawQuery("SELECT * FROM $moneyTABLE");
+    List<MoneyItem> listMoneyItem = List();
 
     for(Map m in listMap){
-      listMovimentacoes.add(MoneyItem.fromMap(m));
+      listMoneyItem.add(MoneyItem.fromMap(m));
     }
-    return listMovimentacoes;
+    return listMoneyItem;
   }
-  Future<List> getAllMovimentacoesPorMes(String data)async{
-    Database dbMovimentacoes = await db;
-    List listMap = await dbMovimentacoes.rawQuery("SELECT * FROM $movimentacaoTABLE WHERE $dataColumn LIKE '%$data%'");
-    List<MoneyItem> listMovimentacoes = List();
+  Future<List> getAllMoneyItems(String date)async{
+    Database dbMoneyItem = await db;
+    List listMap = await dbMoneyItem.rawQuery("SELECT * FROM $moneyTABLE WHERE $dateColumn LIKE '%$date%'");
+    List<MoneyItem> listMoneyItem = List();
 
     for(Map m in listMap){
-      listMovimentacoes.add(MoneyItem.fromMap(m));
+      listMoneyItem.add(MoneyItem.fromMap(m));
     }
-    return listMovimentacoes;
+    return listMoneyItem;
   }
 
-  Future<List> getAllMovimentacoesPorTipo(String tipo)async{
-    Database dbMovimentacoes = await db;
-    List listMap = await dbMovimentacoes.rawQuery("SELECT * FROM $movimentacaoTABLE WHERE $tipoColumn ='$tipo' ");
-    List<MoneyItem> listMovimentacoes = List();
+  Future<List> getAllMoneyItemByTransactionType(String tipo)async{
+    Database dbMoneyItem = await db;
+    List listMap = await dbMoneyItem.rawQuery("SELECT * FROM $moneyTABLE WHERE $transactionTypeColumn ='$tipo' ");
+    List<MoneyItem> listMoneyItem = List();
 
     for(Map m in listMap){
-      listMovimentacoes.add(MoneyItem.fromMap(m));
+      listMoneyItem.add(MoneyItem.fromMap(m));
     }
-    return listMovimentacoes;
+    return listMoneyItem;
   }
 
   
 
   Future<int> getNumber()async{
-    Database dbMovimentacoes = await db;
-    return Sqflite.firstIntValue(await dbMovimentacoes.rawQuery(
-      "SELECT COUNT(*) FROM $movimentacaoTABLE"));
+    Database myDb = await db;
+    return Sqflite.firstIntValue(await myDb.rawQuery(
+      "SELECT COUNT(*) FROM $moneyTABLE"));
   }
 
   Future close()async{
-    Database dbMovimentacoes = await db;
-    dbMovimentacoes.close();
+    Database myDb = await db;
+    myDb.close();
   }
 }
 
@@ -136,29 +136,29 @@ class MySqlDataBaseHelper{
 class MoneyItem{
 
   int id;
-  String data;
+  String date;
   double valor;
-  String tipo;
-  String descricao;
+  String transactionType;
+  String description;
 
   MoneyItem();
 
   MoneyItem.fromMap(Map map){
     id = map[idColumn];
-    valor = map[valorColumn];
-    data = map[dataColumn];
-    tipo = map[tipoColumn];
-    descricao = map[descricaoColumn];
+    valor = map[valueColumn];
+    date = map[dateColumn];
+    transactionType = map[transactionTypeColumn];
+    description = map[moneyValueColumn];
     
   }
  
 
   Map toMap(){
     Map<String,dynamic> map ={
-      valorColumn :valor,
-      dataColumn : data,
-      tipoColumn : tipo,
-      descricaoColumn : descricao,
+      valueColumn :valor,
+      dateColumn : date,
+      transactionTypeColumn : transactionType,
+      moneyValueColumn : description,
       
     };
     if(id != null){
@@ -168,6 +168,6 @@ class MoneyItem{
   }
 
   String toString(){
-    return "MoneyItem(id: $id, valor: $valor, data: $data, tipo: $tipo, desc: $descricao, )";
+    return "MoneyItem(id: $id, valor: $valor, data: $date, tipo: $transactionType, desc: $description, )";
   }
 }
