@@ -1,23 +1,23 @@
-import 'package:finacash/Helper/Movimentacoes_helper.dart';
+import 'package:finacash/Helper/MyDatabaseHelper.dart';
 import 'package:finacash/Widgets/TimeLineItem.dart';
 import 'package:flutter/material.dart';
 
-class ReceitasResumo extends StatefulWidget {
+class ReceivePage extends StatefulWidget {
   @override
-  _ReceitasResumoState createState() => _ReceitasResumoState();
+  _ReceivePageState createState() => _ReceivePageState();
 }
 
-class _ReceitasResumoState extends State<ReceitasResumo> {
+class _ReceivePageState extends State<ReceivePage> {
 
-  MovimentacoesHelper movimentacoesHelper = MovimentacoesHelper();
-  List<Movimentacoes> listmovimentacoes = List();
+  MySqlDataBaseHelper myDataBaseHelper = MySqlDataBaseHelper();
+  List<MoneyItem> moneyItemList = List();
 
   _allMovPorTipo() {
-    movimentacoesHelper.getAllMovimentacoesPorTipo("r").then((list) {
+    myDataBaseHelper.getAllMovimentacoesPorTipo("r").then((list) {
       setState(() {
-        listmovimentacoes = list;
+        moneyItemList = list;
       });
-      print("All Mov: $listmovimentacoes");
+      print("All Mov: $moneyItemList");
     });
   }
 
@@ -56,10 +56,10 @@ class _ReceitasResumoState extends State<ReceitasResumo> {
                 width: width,
                 height: height * 0.74,
                 child: ListView.builder(
-                  itemCount: listmovimentacoes.length,
+                  itemCount: moneyItemList.length,
                   itemBuilder: (context, index){
-                    List movReverse = listmovimentacoes.reversed.toList();
-                    Movimentacoes mov = movReverse[index];
+                    List movReverse = moneyItemList.reversed.toList();
+                    MoneyItem mov = movReverse[index];
 
                     
                     if(movReverse[index] == movReverse.last){

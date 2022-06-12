@@ -1,10 +1,10 @@
-import 'package:finacash/Helper/Movimentacoes_helper.dart';
+import 'package:finacash/Helper/MyDatabaseHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CustomDialog extends StatefulWidget {
 
-  final Movimentacoes mov;
+  final MoneyItem mov;
   const CustomDialog({Key key, this.mov}) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class _CustomDialogState extends State<CustomDialog> {
   TextEditingController _controllerValor = TextEditingController();
   TextEditingController _controllerDesc = TextEditingController();
 
-  MovimentacoesHelper _movHelper = MovimentacoesHelper();
+  MySqlDataBaseHelper _movHelper = MySqlDataBaseHelper();
 
   @override
   void initState() {
@@ -196,7 +196,7 @@ class _CustomDialogState extends State<CustomDialog> {
                       onTap: (){
                         
                         if(_controllerValor.text.isNotEmpty && _controllerDesc.text.isNotEmpty){
-                          Movimentacoes mov = Movimentacoes();
+                          MoneyItem mov = MoneyItem();
                           String valor;
                           if(_controllerValor.text.contains(",")){
                              valor = _controllerValor.text.replaceAll( RegExp(","), ".");
@@ -212,13 +212,13 @@ class _CustomDialogState extends State<CustomDialog> {
                             mov.valor = double.parse(valor);
                             mov.tipo ="r";
                             if(widget.mov != null){ mov.id = widget.mov.id;}
-                            edit == false ? _movHelper.saveMovimentacao(mov) : _movHelper.updateMovimentacao(mov);
+                            edit == false ? _movHelper.saveMoneyItem(mov) : _movHelper.updateMovimentacao(mov);
                           }
                           if(_groupValueRadio == 2){
                             mov.valor = double.parse("-" + valor);
                             mov.tipo ="d";
                             if(widget.mov != null){ mov.id = widget.mov.id;}
-                            edit == false ? _movHelper.saveMovimentacao(mov) : _movHelper.updateMovimentacao(mov);
+                            edit == false ? _movHelper.saveMoneyItem(mov) : _movHelper.updateMovimentacao(mov);
                           }
                           Navigator.pop(context);
                           //initState();

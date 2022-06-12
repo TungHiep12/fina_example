@@ -1,7 +1,7 @@
 import 'package:finacash/Widgets/AnimatedBottomNavBar.dart';
-import 'package:finacash/screen/DespesasResumo.dart';
+import 'package:finacash/screen/DepositPage.dart';
 import 'package:finacash/screen/HomePage.dart';
-import 'package:finacash/screen/ReceitasResumo.dart';
+import 'package:finacash/screen/ReceivePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -64,10 +64,9 @@ class _InicialPageState extends State<InicialPage> {
     
 
     List<Widget> telas =[
-      
-      DespesasResumo(),
+      DepositPage(),
       HomePage(),
-      ReceitasResumo()   
+      ReceivePage()
     ];
 
     return Scaffold(

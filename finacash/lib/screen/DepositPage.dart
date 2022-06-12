@@ -1,16 +1,16 @@
-import 'package:finacash/Helper/Movimentacoes_helper.dart';
+import 'package:finacash/Helper/MyDatabaseHelper.dart';
 import 'package:finacash/Widgets/TimeLineItem.dart';
 import 'package:flutter/material.dart';
 
 
-class DespesasResumo extends StatefulWidget {
+class DepositPage extends StatefulWidget {
   @override
-  _DespesasResumoState createState() => _DespesasResumoState();
+  _DepositPageState createState() => _DepositPageState();
 }
 
-class _DespesasResumoState extends State<DespesasResumo> {
-  MovimentacoesHelper movimentacoesHelper = MovimentacoesHelper();
-  List<Movimentacoes> listmovimentacoes = List();
+class _DepositPageState extends State<DepositPage> {
+  MySqlDataBaseHelper movimentacoesHelper = MySqlDataBaseHelper();
+  List<MoneyItem> listmovimentacoes = List();
 
   _allMovPorTipo() {
     movimentacoesHelper.getAllMovimentacoesPorTipo("d").then((list) {
@@ -59,7 +59,7 @@ class _DespesasResumoState extends State<DespesasResumo> {
                   itemCount: listmovimentacoes.length,
                   itemBuilder: (context, index){
                     List movReverse = listmovimentacoes.reversed.toList();
-                    Movimentacoes mov = movReverse[index];
+                    MoneyItem mov = movReverse[index];
                     
                     if(movReverse[index] == movReverse.last){
                       return TimeLineItem(mov: mov, colorItem: Colors.red[900],isLast: true,);

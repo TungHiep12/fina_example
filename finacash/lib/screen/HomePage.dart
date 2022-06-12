@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:finacash/Helper/Movimentacoes_helper.dart';
+import 'package:finacash/Helper/MyDatabaseHelper.dart';
 import 'package:finacash/Widgets/AnimatedBottomNavBar.dart';
-import 'package:finacash/Widgets/CardMovimentacoesItem.dart';
+import 'package:finacash/Widgets/CardMoneyItem.dart';
 import 'package:finacash/Widgets/CustomDialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +24,12 @@ class _HomePageState extends State<HomePage> {
   var height;
   bool recDesp = false;
   final GlobalKey<ScaffoldState> _scafoldKey = GlobalKey<ScaffoldState>();
-  MovimentacoesHelper movHelper = MovimentacoesHelper();
+  MySqlDataBaseHelper movHelper = MySqlDataBaseHelper();
   TextEditingController _valorController = TextEditingController();
   CalendarController calendarController;
-  MovimentacoesHelper movimentacoesHelper = MovimentacoesHelper();
-  List<Movimentacoes> listmovimentacoes = List();
-  List<Movimentacoes> ultimaTarefaRemovida = List();
+  MySqlDataBaseHelper movimentacoesHelper = MySqlDataBaseHelper();
+  List<MoneyItem> listmoneyitem = List();
+  List<MoneyItem> ultimaTarefaRemovida = List();
 
   var dataAtual = new DateTime.now();
   var formatter = new DateFormat('dd-MM-yyyy');
@@ -57,22 +57,22 @@ class _HomePageState extends State<HomePage> {
 
   _salvar() {
     dataFormatada = formatter.format(dataAtual);
-    Movimentacoes mov = Movimentacoes();
+    MoneyItem mov = MoneyItem();
     mov.valor = 20.50;
     mov.tipo = "r";
     mov.data = "10-03-2020"; //dataFormatada;
     mov.descricao = "CashBack";
-    MovimentacoesHelper movimentacoesHelper = MovimentacoesHelper();
-    movimentacoesHelper.saveMovimentacao(mov);
+    MySqlDataBaseHelper movimentacoesHelper = MySqlDataBaseHelper();
+    movimentacoesHelper.saveMoneyItem(mov);
     mov.toString();
   }
 
   _allMov() {
     movimentacoesHelper.getAllMovimentacoes().then((list) {
       setState(() {
-        listmovimentacoes = list;
+        listmoneyitem = list;
       });
-      print("All Mov: $listmovimentacoes");
+      print("All Mov: $listmoneyitem");
     });
   }
 
@@ -80,15 +80,15 @@ class _HomePageState extends State<HomePage> {
     movimentacoesHelper.getAllMovimentacoesPorMes(data).then((list) {
       if (list.isNotEmpty) {
         setState(() {
-          listmovimentacoes = list;
+          listmoneyitem = list;
           //total =listmovimentacoes.map((item) => item.valor).reduce((a, b) => a + b);
         });
         total =
-            listmovimentacoes.map((item) => item.valor).reduce((a, b) => a + b);
+            listmoneyitem.map((item) => item.valor).reduce((a, b) => a + b);
         saldoAtual = format(total).toString();
       } else {
         setState(() {
-          listmovimentacoes.clear();
+          listmoneyitem.clear();
           total = 0;
           saldoAtual = total.toString();
         });
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                       )),
                 ),
                 Positioned(
-                  top: width * 0.18, //70
+                  top: width * 0.15, //70
                   left: width * 0.07, //30,
                   child: Text(
                     "FinaCash",
@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                   left: width * 0.07, // 30,
                   right: width * 0.07, // 30,
                   child: Container(
-                    height: height * 0.16, //150,
+                    height: height * 0.21, //150,
                     width: width * 0.1, // 70,
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -321,17 +321,15 @@ class _HomePageState extends State<HomePage> {
                 width: width,
                 height: height * 0.47,
                 child: ListView.builder(
-                  itemCount: listmovimentacoes.length,
+                  itemCount: listmoneyitem.length,
                   itemBuilder: (context, index) {
-                    Movimentacoes mov = listmovimentacoes[index];
-                    Movimentacoes ultMov = listmovimentacoes[index];
+                    MoneyItem mov = listmoneyitem[index];
+                    MoneyItem ultMov = listmoneyitem[index];
                     return Dismissible(
                       direction: DismissDirection.endToStart,
                       onDismissed: (direction) {
-                        //_dialogConfimacao(context, width, mov,index);
-
                         setState(() {
-                          listmovimentacoes.removeAt(index);
+                          listmoneyitem.removeAt(index);
                         });
                         movHelper.deleteMovimentacao(mov);
                         final snackBar = SnackBar(
@@ -340,7 +338,7 @@ class _HomePageState extends State<HomePage> {
                             alignment: Alignment.bottomLeft,
                             height: height * 0.05,
                             child: Text(
-                              "Desfazer Ação",
+                              "Undo Action",
                               style: TextStyle(
                                   color: Colors.white,
                                   //fontWeight: FontWeight.bold,
@@ -354,14 +352,14 @@ class _HomePageState extends State<HomePage> {
                                   topLeft: Radius.circular(15),
                                   topRight: Radius.circular(15))),
                           action: SnackBarAction(
-                            label: "Desfazer",
+                            label: "Undo",
                             textColor: Colors.white,
                             onPressed: () {
                               setState(() {
-                                listmovimentacoes.insert(index, ultMov);
+                                listmoneyitem.insert(index, ultMov);
                               });
 
-                              movHelper.saveMovimentacao(ultMov);
+                              movHelper.saveMoneyItem(ultMov);
                             },
                           ),
                         );
@@ -378,9 +376,9 @@ class _HomePageState extends State<HomePage> {
                           size: width * 0.07,
                         ),
                       ),
-                      child: CardMovimentacoesItem(
+                      child: CardMoneyItem(
                         mov: mov,
-                        lastItem: listmovimentacoes[index] == listmovimentacoes.last? true : false,
+                        lastItem: listmoneyitem[index] == listmoneyitem.last? true : false,
                       ),
                     );
                   },
@@ -389,7 +387,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Padding(
               padding: EdgeInsets.only(top: 20),
-              child: Text( "EEEEEEEEE"),
+              child: Text( "SAMPLE TEXT PADDING"),
             )
           ],
         ),

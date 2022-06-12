@@ -11,13 +11,13 @@ import 'package:path/path.dart';
   final String descricaoColumn = "descricaoColumn";
   
 
-class MovimentacoesHelper{
+class MySqlDataBaseHelper{
 
-  static final MovimentacoesHelper _instance = MovimentacoesHelper.internal();
+  static final MySqlDataBaseHelper _instance = MySqlDataBaseHelper.internal();
 
-  factory MovimentacoesHelper() => _instance;
+  factory MySqlDataBaseHelper() => _instance;
 
-  MovimentacoesHelper.internal();
+  MySqlDataBaseHelper.internal();
 
   Database _db;
 
@@ -47,14 +47,14 @@ class MovimentacoesHelper{
     });
   }
 
-  Future<Movimentacoes> saveMovimentacao(Movimentacoes movimentacoes)async{
+  Future<MoneyItem> saveMoneyItem(MoneyItem movimentacoes)async{
     print("chamada save");
     Database dbMovimentacoes = await db;
     movimentacoes.id = await dbMovimentacoes.insert(movimentacaoTABLE, movimentacoes.toMap());
     return movimentacoes;
   }
 
-  Future<Movimentacoes> getMovimentacoes(int id)async{
+  Future<MoneyItem> getMoneyItem(int id)async{
     Database dbMovimentacoes = await db;
     List<Map> maps = await dbMovimentacoes.query(movimentacaoTABLE,
     columns: [idColumn,valorColumn, dataColumn, tipoColumn,descricaoColumn],
@@ -62,20 +62,20 @@ class MovimentacoesHelper{
     whereArgs: [id]);
 
     if(maps.length > 0){
-      return Movimentacoes.fromMap(maps.first);
+      return MoneyItem.fromMap(maps.first);
     }else{
       return null;
     }
   }
 
-  Future<int> deleteMovimentacao(Movimentacoes movimentacoes)async{
+  Future<int> deleteMovimentacao(MoneyItem movimentacoes)async{
     Database dbMovimentacoes = await db;
     return await dbMovimentacoes.delete(movimentacaoTABLE,
     where: "$idColumn =?",
     whereArgs: [movimentacoes.id]);
   }
 
-  Future<int> updateMovimentacao(Movimentacoes movimentacoes)async{
+  Future<int> updateMovimentacao(MoneyItem movimentacoes)async{
     print("chamada update");
     print(movimentacoes.toString());
     Database dbMovimentacoes = await db;
@@ -88,20 +88,20 @@ class MovimentacoesHelper{
   Future<List> getAllMovimentacoes()async{
     Database dbMovimentacoes = await db;
     List listMap = await dbMovimentacoes.rawQuery("SELECT * FROM $movimentacaoTABLE");
-    List<Movimentacoes> listMovimentacoes = List();
+    List<MoneyItem> listMovimentacoes = List();
 
     for(Map m in listMap){
-      listMovimentacoes.add(Movimentacoes.fromMap(m));
+      listMovimentacoes.add(MoneyItem.fromMap(m));
     }
     return listMovimentacoes;
   }
   Future<List> getAllMovimentacoesPorMes(String data)async{
     Database dbMovimentacoes = await db;
     List listMap = await dbMovimentacoes.rawQuery("SELECT * FROM $movimentacaoTABLE WHERE $dataColumn LIKE '%$data%'");
-    List<Movimentacoes> listMovimentacoes = List();
+    List<MoneyItem> listMovimentacoes = List();
 
     for(Map m in listMap){
-      listMovimentacoes.add(Movimentacoes.fromMap(m));
+      listMovimentacoes.add(MoneyItem.fromMap(m));
     }
     return listMovimentacoes;
   }
@@ -109,10 +109,10 @@ class MovimentacoesHelper{
   Future<List> getAllMovimentacoesPorTipo(String tipo)async{
     Database dbMovimentacoes = await db;
     List listMap = await dbMovimentacoes.rawQuery("SELECT * FROM $movimentacaoTABLE WHERE $tipoColumn ='$tipo' ");
-    List<Movimentacoes> listMovimentacoes = List();
+    List<MoneyItem> listMovimentacoes = List();
 
     for(Map m in listMap){
-      listMovimentacoes.add(Movimentacoes.fromMap(m));
+      listMovimentacoes.add(MoneyItem.fromMap(m));
     }
     return listMovimentacoes;
   }
@@ -133,7 +133,7 @@ class MovimentacoesHelper{
 
 
 
-class Movimentacoes{
+class MoneyItem{
 
   int id;
   String data;
@@ -141,9 +141,9 @@ class Movimentacoes{
   String tipo;
   String descricao;
 
-  Movimentacoes();
+  MoneyItem();
 
-  Movimentacoes.fromMap(Map map){
+  MoneyItem.fromMap(Map map){
     id = map[idColumn];
     valor = map[valorColumn];
     data = map[dataColumn];
@@ -168,6 +168,6 @@ class Movimentacoes{
   }
 
   String toString(){
-    return "Movimentaoes(id: $id, valor: $valor, data: $data, tipo: $tipo, desc: $descricao, )";
+    return "MoneyItem(id: $id, valor: $valor, data: $data, tipo: $tipo, desc: $descricao, )";
   }
 }

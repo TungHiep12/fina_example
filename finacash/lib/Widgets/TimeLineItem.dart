@@ -1,8 +1,8 @@
-import 'package:finacash/Helper/Movimentacoes_helper.dart';
+import 'package:finacash/Helper/MyDatabaseHelper.dart';
 import 'package:flutter/material.dart';
 
 class TimeLineItem extends StatelessWidget {
-  final Movimentacoes mov; 
+  final MoneyItem mov;
   final bool isLast;
   final Color colorItem;
 

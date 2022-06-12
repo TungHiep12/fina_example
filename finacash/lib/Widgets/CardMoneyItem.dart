@@ -1,17 +1,17 @@
 
 
-import 'package:finacash/Helper/Movimentacoes_helper.dart';
+import 'package:finacash/Helper/MyDatabaseHelper.dart';
 import 'package:flutter/material.dart';
 
 import 'CustomDialog.dart';
 
-class CardMovimentacoesItem extends StatelessWidget {
+class CardMoneyItem extends StatelessWidget {
 
-  final Movimentacoes mov;
+  final MoneyItem mov;
   final bool lastItem;
 
 
-  const CardMovimentacoesItem({Key key, this.mov,this.lastItem=false}) : super(key: key);
+  const CardMoneyItem({Key key, this.mov,this.lastItem=false}) : super(key: key);
 
   _dialogConfimacao(BuildContext context, double width){
     showDialog(
@@ -49,7 +49,7 @@ class CardMovimentacoesItem extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: (){
-                        MovimentacoesHelper movHelper = MovimentacoesHelper();
+                        MySqlDataBaseHelper movHelper = MySqlDataBaseHelper();
                         movHelper.deleteMovimentacao(mov);
                         Navigator.pop(context);
                       },
@@ -84,7 +84,7 @@ class CardMovimentacoesItem extends StatelessWidget {
     );
   }
   
-  _dialogEdit(BuildContext context, double width, Movimentacoes movimentacao){
+  _dialogEdit(BuildContext context, double width, MoneyItem movimentacao){
     print(movimentacao.toString());
     showDialog(
         context: context,
